@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="id" style="height:100%">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Ulang Tahun
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   * {
+    box-sizing: border-box;
+   }
+   body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    overflow-x: hidden;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+   }
+   button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-weight: 700;
+    border-radius: 9999px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+   }
+   button:active {
+    transform: scale(0.95);
+   }
+   .container {
+    max-width: 420px;
+    width: 100%;
+    background: rgba(255, 240, 246, 0.85);
+    border-radius: 24px;
+    box-shadow: 0 12px 30px rgba(238,156,167,0.4);
+    padding: 30px 30px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+   }
+   h1, h2 {
+    margin: 0 0 20px 0;
+    color: #blue;
+    text-shadow: 1px 1px 3px #f9c5d1;
+   }
+   h1 {
+    font-size: 2.75rem;
+    line-height: 1.1;
+   }
+   h2 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+   }
+   #openSurpriseBtn {
+    background-color: #ffd6e8;
+    color: #fff;
+    padding: 14px 36px;
+    font-size: 1.25rem;
+   }
+   #openSurpriseBtn:hover {
+    background-color: #ff4a6e;
+    box-shadow: 0 8px 20px rgba(255,74,110,0.5);
+   }
+   #continueBtn {
+    background-color: #ffd6e8;
+    color: #b83280;
+    padding: 14px 36px;
+    font-size: 1.25rem;
+    border: 2px solid #b83280;
+   }
+   #continueBtn:hover {
+    background-color: #f9a1c1;
+    color: #fff;
+    border-color: #f9a1c1;
+    box-shadow: 0 8px 20px rgba(249,161,193,0.6);
+   }
+   @keyframes confetti-fall-left {
+    0% {
+     transform: translateX(0) translateY(0) rotate(0deg);
+     opacity: 1;
+    }
+    100% {
+     transform: translateX(280px) translateY(600px) rotate(360deg);
+     opacity: 0;
+    }
+   }
+   @keyframes confetti-fall-right {
+    0% {
+     transform: translateX(0) translateY(0) rotate(0deg);
+     opacity: 1;
+    }
+    100% {
+     transform: translateX(-280px) translateY(600px) rotate(-360deg);
+     opacity: 0;
+    }
+   }
+   .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+    z-index: 50;
+   }
+   .confetti-left {
+    animation-name: confetti-fall-left;
+    animation-duration: 2.5s;
+   }
+   .confetti-right {
+    animation-name: confetti-fall-right;
+    animation-duration: 2.5s;
+   }
+   .typing-text {
+    white-space: normal;
+    overflow: visible;
+    border-right: 3px solid #ff6f91;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.4;
+    min-height: 4.5rem;
+   }
+   @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+   }
+   @keyframes blink-caret {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #ff6f91; }
+   }
+   @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+   }
+   .animate-bounce-slow {
+    animation: bounce-slow 4s ease-in-out infinite;
+   }
+   @keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+   }
+   .animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+   }
+   @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+   }
+   .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+   }
+   #step1, #step2, #step3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   }
+   #step1 {
+    gap: 24px;
+   }
+   #step2 {
+    gap: 24px;
+    position: relative;
+   }
+   #step3 {
+    padding: 0 10px;
+   }
+   .hidden {
+    display: none !important;
+   }
+   img {
+    user-select: none;
+    box-shadow: 0 8px 20px rgba(255,111,145,0.4);
+   }
+   #decorations {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    overflow: visible;
+   }
+   @media (max-width: 480px) {
+    h1 {
+     font-size: 2rem;
+    }
+    h2 {
+     font-size: 2rem;
+    }
+    button {
+     font-size: 1.1rem;
+     padding: 12px 28px;
+    }
+    img.cake {
+     width: 240px;
+     height: 240px;
+    }
+   }
+   #particles {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    overflow: visible;
+   }
+   .particle {
+    position: absolute;
+    background-color: rgba(255, 111, 145, 0.8);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+   }
+  </style>
+ </head>
+ <body>
+  <div id="particles"></div>
+  <div class="container" id="step1">
+   <h1>
+    Haloo selamat malam rexan😍😍
+   </h1>
+   <button aria-label="Buka Kejutan" id="openSurpriseBtn" type="button">
+    Buka Kejutan
+    <i class="fas fa-gift" style="margin-left:8px;">
+    </i>
+   </button>
+  </div>
+  <div aria-atomic="true" aria-live="polite" class="container hidden" id="step2">
+   <div id="confetti-container">
+   </div>
+   <h2>
+    Selamat ulang tahun rexan 🎉🎂
+   </h2>
+   <img class="cake" draggable="false" height="300" loading="lazy" src="https://files.catbox.moe/a4cxwa.png" width="300" alt="Birthday cake"/>
+   <button aria-label="Lanjutkan" id="continueBtn" type="button">
+    Lanjutkan
+    <i class="fas fa-arrow-right" style="margin-left:8px;">
+    </i>
+   </button>
+   <div aria-hidden="true" id="decorations">
+    <img class="animate-pulse-slow" draggable="false" height="50" loading="lazy" src="https://files.catbox.moe/yej718.png" style="position:absolute; top:40px; right:90px; width:50px; height:50px; animation-delay: 0.4s;" width="50" alt="Pink glowing heart-shaped decoration with soft light"/>
+    <img class="animate-pulse-slow" draggable="false" height="50" loading="lazy" src="https://files.catbox.moe/yej718.png" style="position:absolute; top:70px; left:140px; width:50px; height:50px; animation-delay: 0.7s;" width="50" alt="Pink glowing star-shaped decoration with soft light"/>
+    <img class="animate-pulse-slow" draggable="false" height="50" loading="lazy" src="https://files.catbox.moe/yej718.png" style="position:absolute; bottom:100px; right:130px; width:50px; height:50px; animation-delay: 1s;" width="50" alt="Pink glowing flower-shaped decoration with soft light"/>
+   </div>
+  </div>
+  <div aria-atomic="true" aria-live="polite" class="container hidden" id="step3">
+   <p class="typing-text" id="typingText">
+   </p>
+  </div>
+  <audio id="birthday-audio" preload="auto" src="https://files.catbox.moe/obq4fp.mp4">
+  </audio>
+  <script>
+   const backgroundImageURL = 'https://img1.pixhost.to/images/5816/599894129_aetherbot.jpg';
+   document.body.style.backgroundImage = `url('${backgroundImageURL}')`;
+
+   const openSurpriseBtn = document.getElementById('openSurpriseBtn');
+   const continueBtn = document.getElementById('continueBtn');
+   const step1 = document.getElementById('step1');
+   const step2 = document.getElementById('step2');
+   const step3 = document.getElementById('step3');
+   const confettiContainer = document.getElementById('confetti-container');
+   const birthdayAudio = document.getElementById('birthday-audio');
+   const typingText = document.getElementById('typingText');
+   const particlesContainer = document.getElementById('particles');
+
+   const confettiColors = [
+    '#ff6f91',
+    '#ffd6e8',
+    '#6bd26b',
+    '#4a90e2',
+    '#f9a1c1',
+    '#ffb347'
+   ];
+
+   function createConfettiPiece(side) {
+    const div = document.createElement('div');
+    div.classList.add('confetti-piece');
+    div.style.backgroundColor =
+     confettiColors[Math.floor(Math.random() * confettiColors.length)];
+    div.style.left = side === 'left' ? '0' : '100%';
+    div.style.top = Math.random() * window.innerHeight * 0.5 + 'px';
+    div.style.width = 8 + Math.random() * 6 + 'px';
+    div.style.height = 8 + Math.random() * 6 + 'px';
+    div.style.animationName = side === 'left' ? 'confetti-fall-left' : 'confetti-fall-right';
+    div.style.animationDuration = 2 + Math.random() * 1.5 + 's';
+    div.style.animationDelay = Math.random() * 0.5 + 's';
+    div.style.animationFillMode = 'forwards';
+    div.style.position = 'fixed';
+    div.style.zIndex = '50';
+    return div;
+   }
+
+   function launchConfetti() {
+    confettiContainer.innerHTML = '';
+    for (let i = 0; i < 20; i++) {
+     const leftConfetti = createConfettiPiece('left');
+     confettiContainer.appendChild(leftConfetti);
+     const rightConfetti = createConfettiPiece('right');
+     confettiContainer.appendChild(rightConfetti);
+    }
+    setTimeout(() => {
+     confettiContainer.innerHTML = '';
+    }, 3000);
+   }
+
+   function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    const size = Math.random() * 6 + 4;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.top = window.innerHeight + 10 + 'px';
+    particle.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+    particle.style.opacity = (Math.random() * 0.5 + 0.3).toFixed(2);
+    particle.style.animationDuration = (5 + Math.random() * 5) + 's';
+    particle.style.animationName = 'particle-fall';
+    particle.style.animationTimingFunction = 'linear';
+    particle.style.animationFillMode = 'forwards';
+    particlesContainer.appendChild(particle);
+
+    let start = null;
+    const duration = parseFloat(particle.style.animationDuration) * 1000;
+    const startTop = window.innerHeight + 10;
+    const endTop = -20;
+    function animate(timestamp) {
+     if (!start) start = timestamp;
+     const elapsed = timestamp - start;
+     const progress = elapsed / duration;
+     if (progress < 1) {
+      const currentTop = startTop + (endTop - startTop) * progress;
+      particle.style.top = currentTop + 'px';
+      requestAnimationFrame(animate);
+     } else {
+      particlesContainer.removeChild(particle);
+     }
+    }
+    requestAnimationFrame(animate);
+   }
+//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
+   let particleInterval;
+   function startParticles() {
+    particleInterval = setInterval(() => {
+     createParticle();
+    }, 150);
+   }
+   function stopParticles() {
+    clearInterval(particleInterval);
+   }
+//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
+   openSurpriseBtn.addEventListener('click', () => {
+    step1.classList.add('hidden');
+    step2.classList.remove('hidden');
+    launchConfetti();
+    birthdayAudio.currentTime = 0;
+    birthdayAudio.play().catch(() => {});
+    startParticles();
+   });
+//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
+   continueBtn.addEventListener('click', () => {
+    step2.classList.add('hidden');
+    step3.classList.remove('hidden');
+    birthdayAudio.pause();
+    birthdayAudio.currentTime = 0;
+    startTypingEffect(
+     'Selamat ulang tahun 🎂🎁🎉👑 Semoga panjang umur,sehat selalu,dan selamat dunia dan akhirat Aminnn💐💐'
+    );
+    stopParticles();
+   });
+//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
+   function startTypingEffect(text) {
+    typingText.textContent = '';
+    let i = 0;
+    const speed = 70;
+//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
+    function type() {
+     if (i < text.length) {
+      typingText.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+     }
+    }
+    type();
+   }
+  </script>
+  <style>
+   @keyframes particle-fall {
+    0% {
+     transform: translateY(0);
+     opacity: 1;
+    }
+    100% {
+     transform: translateY(-110vh);
+     opacity: 0;
+    }
+   }
+  </style>
+ </body>
+</html>
