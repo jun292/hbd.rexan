@@ -1,414 +1,703 @@
-
 <!DOCTYPE html>
-<html lang="id" style="height:100%">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>
-   Ulang Tahun
-  </title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&amp;display=swap" rel="stylesheet"/>
-  <style>
-   * {
-    box-sizing: border-box;
-   }
-   body, html {
-    margin: 0; padding: 0; height: 100%;
-    font-family: 'Comic Neue', cursive, sans-serif;
-    overflow-x: hidden;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-   }
-   button {
-    cursor: pointer;
-    border: none;
-    outline: none;
-    font-family: inherit;
-    font-weight: 700;
-    border-radius: 9999px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-   }
-   button:active {
-    transform: scale(0.95);
-   }
-   .container {
-    max-width: 420px;
-    width: 100%;
-    background: rgba(255, 240, 246, 0.85);
-    border-radius: 24px;
-    box-shadow: 0 12px 30px rgba(238,156,167,0.4);
-    padding: 30px 30px 40px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-   }
-   h1, h2 {
-    margin: 0 0 20px 0;
-    color: #blue;
-    text-shadow: 1px 1px 3px #f9c5d1;
-   }
-   h1 {
-    font-size: 2.75rem;
-    line-height: 1.1;
-   }
-   h2 {
-    font-size: 2.5rem;
-    line-height: 1.1;
-   }
-   #openSurpriseBtn {
-    background-color: #ffd6e8;
-    color: #fff;
-    padding: 14px 36px;
-    font-size: 1.25rem;
-   }
-   #openSurpriseBtn:hover {
-    background-color: #ff4a6e;
-    box-shadow: 0 8px 20px rgba(255,74,110,0.5);
-   }
-   #continueBtn {
-    background-color: #ffd6e8;
-    color: #b83280;
-    padding: 14px 36px;
-    font-size: 1.25rem;
-    border: 2px solid #b83280;
-   }
-   #continueBtn:hover {
-    background-color: #f9a1c1;
-    color: #fff;
-    border-color: #f9a1c1;
-    box-shadow: 0 8px 20px rgba(249,161,193,0.6);
-   }
-   @keyframes confetti-fall-left {
-    0% {
-     transform: translateX(0) translateY(0) rotate(0deg);
-     opacity: 1;
-    }
-    100% {
-     transform: translateX(280px) translateY(600px) rotate(360deg);
-     opacity: 0;
-    }
-   }
-   @keyframes confetti-fall-right {
-    0% {
-     transform: translateX(0) translateY(0) rotate(0deg);
-     opacity: 1;
-    }
-    100% {
-     transform: translateX(-280px) translateY(600px) rotate(-360deg);
-     opacity: 0;
-    }
-   }
-   .confetti-piece {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    opacity: 0;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-out;
-    z-index: 50;
-   }
-   .confetti-left {
-    animation-name: confetti-fall-left;
-    animation-duration: 2.5s;
-   }
-   .confetti-right {
-    animation-name: confetti-fall-right;
-    animation-duration: 2.5s;
-   }
-   .typing-text {
-    white-space: normal;
-    overflow: visible;
-    border-right: 3px solid #ff6f91;
-    font-family: 'Comic Neue', cursive, sans-serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    max-width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    line-height: 1.4;
-    min-height: 4.5rem;
-   }
-   @keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-   }
-   @keyframes blink-caret {
-    0%, 100% { border-color: transparent; }
-    50% { border-color: #ff6f91; }
-   }
-   @keyframes bounce-slow {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-18px); }
-   }
-   .animate-bounce-slow {
-    animation: bounce-slow 4s ease-in-out infinite;
-   }
-   @keyframes spin-slow {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-   }
-   .animate-spin-slow {
-    animation: spin-slow 8s linear infinite;
-   }
-   @keyframes pulse-slow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-   }
-   .animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
-   }
-   #step1, #step2, #step3 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-   }
-   #step1 {
-    gap: 24px;
-   }
-   #step2 {
-    gap: 24px;
-    position: relative;
-   }
-   #step3 {
-    padding: 0 10px;
-   }
-   .hidden {
-    display: none !important;
-   }
-   img {
-    user-select: none;
-    box-shadow: 0 8px 20px rgba(255,111,145,0.4);
-   }
-   #decorations {
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    z-index: 30;
-    overflow: visible;
-   }
-   @media (max-width: 480px) {
-    h1 {
-     font-size: 2rem;
-    }
-    h2 {
-     font-size: 2rem;
-    }
-    button {
-     font-size: 1.1rem;
-     padding: 12px 28px;
-    }
-    img.cake {
-     width: 240px;
-     height: 240px;
-    }
-   }
-   #particles {
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    z-index: 5;
-    overflow: visible;
-   }
-   .particle {
-    position: absolute;
-    background-color: rgba(255, 111, 145, 0.8);
-    border-radius: 50%;
-    opacity: 0.8;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-   }
-  </style>
- </head>
- <body>
-  <div id="particles"></div>
-  <div class="container" id="step1">
-   <h1>
-    Haloo selamat malam rexan😍😍
-   </h1>
-   <button aria-label="Buka Kejutan" id="openSurpriseBtn" type="button">
-    Buka Kejutan
-    <i class="fas fa-gift" style="margin-left:8px;">
-    </i>
-   </button>
-  </div>
-  <div aria-atomic="true" aria-live="polite" class="container hidden" id="step2">
-   <div id="confetti-container">
-   </div>
-   <h2>
-    Selamat ulang tahun rexan 🎉🎂
-   </h2>
-   <img class="cake" draggable="false" height="300" loading="lazy" src="https://files.catbox.moe/a4cxwa.png" width="300" alt="Birthday cake"/>
-   <button aria-label="Lanjutkan" id="continueBtn" type="button">
-    Lanjutkan
-    <i class="fas fa-arrow-right" style="margin-left:8px;">
-    </i>
-   </button>
-   <div aria-hidden="true" id="decorations">
-    <img class="animate-pulse-slow" draggable="false" height="50" loading="lazy" src="https://files.catbox.moe/yej718.png" style="position:absolute; top:40px; right:90px; width:50px; height:50px; animation-delay: 0.4s;" width="50" alt="Pink glowing heart-shaped decoration with soft light"/>
-    <img class="animate-pulse-slow" draggable="false" height="50" loading="lazy" src="https://files.catbox.moe/yej718.png" style="position:absolute; top:70px; left:140px; width:50px; height:50px; animation-delay: 0.7s;" width="50" alt="Pink glowing star-shaped decoration with soft light"/>
-    <img class="animate-pulse-slow" draggable="false" height="50" loading="lazy" src="https://files.catbox.moe/yej718.png" style="position:absolute; bottom:100px; right:130px; width:50px; height:50px; animation-delay: 1s;" width="50" alt="Pink glowing flower-shaped decoration with soft light"/>
-   </div>
-  </div>
-  <div aria-atomic="true" aria-live="polite" class="container hidden" id="step3">
-   <p class="typing-text" id="typingText">
-   </p>
-  </div>
-  <audio id="birthday-audio" preload="auto" src="https://files.catbox.moe/obq4fp.mp4">
-  </audio>
-  <script>
-   const backgroundImageURL = 'https://img1.pixhost.to/images/5816/599894129_aetherbot.jpg';
-   document.body.style.backgroundImage = `url('${backgroundImageURL}')`;
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-   const openSurpriseBtn = document.getElementById('openSurpriseBtn');
-   const continueBtn = document.getElementById('continueBtn');
-   const step1 = document.getElementById('step1');
-   const step2 = document.getElementById('step2');
-   const step3 = document.getElementById('step3');
-   const confettiContainer = document.getElementById('confetti-container');
-   const birthdayAudio = document.getElementById('birthday-audio');
-   const typingText = document.getElementById('typingText');
-   const particlesContainer = document.getElementById('particles');
+        :root {
+            --primary: #6c63ff;
+            --secondary: #4a44c9;
+            --dark: #2a2a3c;
+            --light: #f8f9fa;
+            --gray: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
 
-   const confettiColors = [
-    '#ff6f91',
-    '#ffd6e8',
-    '#6bd26b',
-    '#4a90e2',
-    '#f9a1c1',
-    '#ffb347'
-   ];
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
 
-   function createConfettiPiece(side) {
-    const div = document.createElement('div');
-    div.classList.add('confetti-piece');
-    div.style.backgroundColor =
-     confettiColors[Math.floor(Math.random() * confettiColors.length)];
-    div.style.left = side === 'left' ? '0' : '100%';
-    div.style.top = Math.random() * window.innerHeight * 0.5 + 'px';
-    div.style.width = 8 + Math.random() * 6 + 'px';
-    div.style.height = 8 + Math.random() * 6 + 'px';
-    div.style.animationName = side === 'left' ? 'confetti-fall-left' : 'confetti-fall-right';
-    div.style.animationDuration = 2 + Math.random() * 1.5 + 's';
-    div.style.animationDelay = Math.random() * 0.5 + 's';
-    div.style.animationFillMode = 'forwards';
-    div.style.position = 'fixed';
-    div.style.zIndex = '50';
-    return div;
-   }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-   function launchConfetti() {
-    confettiContainer.innerHTML = '';
-    for (let i = 0; i < 20; i++) {
-     const leftConfetti = createConfettiPiece('left');
-     confettiContainer.appendChild(leftConfetti);
-     const rightConfetti = createConfettiPiece('right');
-     confettiContainer.appendChild(rightConfetti);
-    }
-    setTimeout(() => {
-     confettiContainer.innerHTML = '';
-    }, 3000);
-   }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            animation: fadeIn 1s ease-out;
+        }
 
-   function createParticle() {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    const size = Math.random() * 6 + 4;
-    particle.style.width = size + 'px';
-    particle.style.height = size + 'px';
-    particle.style.left = Math.random() * window.innerWidth + 'px';
-    particle.style.top = window.innerHeight + 10 + 'px';
-    particle.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-    particle.style.opacity = (Math.random() * 0.5 + 0.3).toFixed(2);
-    particle.style.animationDuration = (5 + Math.random() * 5) + 's';
-    particle.style.animationName = 'particle-fall';
-    particle.style.animationTimingFunction = 'linear';
-    particle.style.animationFillMode = 'forwards';
-    particlesContainer.appendChild(particle);
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-    let start = null;
-    const duration = parseFloat(particle.style.animationDuration) * 1000;
-    const startTop = window.innerHeight + 10;
-    const endTop = -20;
-    function animate(timestamp) {
-     if (!start) start = timestamp;
-     const elapsed = timestamp - start;
-     const progress = elapsed / duration;
-     if (progress < 1) {
-      const currentTop = startTop + (endTop - startTop) * progress;
-      particle.style.top = currentTop + 'px';
-      requestAnimationFrame(animate);
-     } else {
-      particlesContainer.removeChild(particle);
-     }
-    }
-    requestAnimationFrame(animate);
-   }
-//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
-   let particleInterval;
-   function startParticles() {
-    particleInterval = setInterval(() => {
-     createParticle();
-    }, 150);
-   }
-   function stopParticles() {
-    clearInterval(particleInterval);
-   }
-//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
-   openSurpriseBtn.addEventListener('click', () => {
-    step1.classList.add('hidden');
-    step2.classList.remove('hidden');
-    launchConfetti();
-    birthdayAudio.currentTime = 0;
-    birthdayAudio.play().catch(() => {});
-    startParticles();
-   });
-//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
-   continueBtn.addEventListener('click', () => {
-    step2.classList.add('hidden');
-    step3.classList.remove('hidden');
-    birthdayAudio.pause();
-    birthdayAudio.currentTime = 0;
-    startTypingEffect(
-     'Selamat ulang tahun 🎂🎁🎉👑 Semoga panjang umur,sehat selalu,dan selamat dunia dan akhirat Aminnn💐💐'
-    );
-    stopParticles();
-   });
-//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
-   function startTypingEffect(text) {
-    typingText.textContent = '';
-    let i = 0;
-    const speed = 70;
-//chanell:https://whatsapp.com/channel/0029VanrndJICVfcrjFr3x2R//
-    function type() {
-     if (i < text.length) {
-      typingText.textContent += text.charAt(i);
-      i++;
-      setTimeout(type, speed);
-     }
-    }
-    type();
-   }
-  </script>
-  <style>
-   @keyframes particle-fall {
-    0% {
-     transform: translateY(0);
-     opacity: 1;
-    }
-    100% {
-     transform: translateY(-110vh);
-     opacity: 0;
-    }
-   }
-  </style>
- </body>
+        header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        input, textarea, button, select {
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 2px solid var(--gray);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(108, 99, 255, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .secondary-btn {
+            background: var(--gray);
+            color: var(--dark);
+        }
+
+        .secondary-btn:hover {
+            background: #d1d5db;
+        }
+
+        .image-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .image-card:hover {
+            transform: scale(1.03);
+        }
+
+        .image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .image-card:hover .image-container img {
+            transform: scale(1.05);
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .image-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .image-actions button {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--gray);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: var(--error);
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .info-message {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .warning-message {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 40px;
+            border-top: 1px solid var(--gray);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .history-section {
+            margin-top: 40px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .clear-history {
+            background: var(--error);
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .api-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .api-option {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .api-info {
+            background: #f0f9ff;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .api-info p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .image-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .history-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .api-selector {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            input, textarea, button, select {
+                padding: 12px 15px;
+            }
+            
+            .image-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Image Generator</h1>
+            <p>Ubah deskripsi teks menjadi gambar menakjubkan dengan teknologi AI terdepan</p>
+        </header>
+
+        <main>
+            <section class="card input-section">
+                <h2>Buat Gambar Baru</h2>
+                
+                <div class="api-selector">
+                    <div class="input-group api-option">
+                        <label for="api-select">Pilih API Generator</label>
+                        <select id="api-select">
+                            <option value="placeholder">Placeholder API (Cepat)</option>
+                            <option value="picsum">Picsum Photos (Real Images)</option>
+                            <option value="dicebear">DiceBear (Avatar)</option>
+                            <option value="original" disabled>API Original (Sementara Tidak Tersedia)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="api-info">
+                    <p><strong>Info:</strong> API original sedang mengalami masalah. Untuk sementara menggunakan API alternatif.</p>
+                    <p>Masukkan deskripsi gambar dan pilih salah satu API di atas untuk menghasilkan gambar.</p>
+                </div>
+                
+                <div class="input-group">
+                    <label for="prompt">Deskripsi Gambar</label>
+                    <textarea id="prompt" placeholder="Masukkan deskripsi detail untuk gambar yang ingin Anda buat... Contoh: 'pemandangan gunung dengan danau yang tenang di bawah sinar matahari terbenam'"></textarea>
+                </div>
+                
+                <button id="generate-btn">
+                    <i class="fas fa-magic"></i>
+                    Generate Gambar
+                </button>
+                
+                <div id="message" class="message hidden"></div>
+            </section>
+
+            <section class="loading hidden" id="loading">
+                <div class="spinner"></div>
+                <p>AI sedang membuat gambar Anda, harap tunggu...</p>
+            </section>
+
+            <section class="history-section">
+                <div class="history-header">
+                    <h2>Gambar yang Telah Dibuat</h2>
+                    <button id="clear-history" class="clear-history">
+                        <i class="fas fa-trash"></i>
+                        Hapus Semua
+                    </button>
+                </div>
+                
+                <div id="image-section" class="image-section">
+                    <!-- Gambar akan ditampilkan di sini -->
+                    <div class="empty-state" id="empty-state">
+                        <i class="fas fa-images"></i>
+                        <h3>Belum ada gambar</h3>
+                        <p>Gambar yang Anda buat akan muncul di sini</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 AI Image Generator. Dibuat dengan <i class="fas fa-heart" style="color: #e74c3c;"></i> menggunakan teknologi AI.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generate-btn');
+            const promptInput = document.getElementById('prompt');
+            const imageSection = document.getElementById('image-section');
+            const loadingSection = document.getElementById('loading');
+            const messageDiv = document.getElementById('message');
+            const clearHistoryBtn = document.getElementById('clear-history');
+            const emptyState = document.getElementById('empty-state');
+            const apiSelect = document.getElementById('api-select');
+            
+            // Muat riwayat gambar dari localStorage
+            let generatedImages = JSON.parse(localStorage.getItem('generatedImages')) || [];
+            
+            // Tampilkan gambar yang sudah ada
+            displayImages();
+            
+            generateBtn.addEventListener('click', generateImage);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            async function generateImage() {
+                const prompt = promptInput.value.trim();
+                const selectedApi = apiSelect.value;
+                
+                if (!prompt) {
+                    showMessage('Silakan masukkan deskripsi gambar terlebih dahulu.', 'error');
+                    promptInput.focus();
+                    return;
+                }
+                
+                // Tampilkan loading
+                loadingSection.classList.remove('hidden');
+                generateBtn.disabled = true;
+                hideMessage();
+                
+                try {
+                    let imageUrl;
+                    
+                    // Pilih API berdasarkan pilihan
+                    switch(selectedApi) {
+                        case 'placeholder':
+                            imageUrl = await generateWithPlaceholderAPI(prompt);
+                            break;
+                        case 'picsum':
+                            imageUrl = await generateWithPicsumAPI(prompt);
+                            break;
+                        case 'dicebear':
+                            imageUrl = await generateWithDiceBearAPI(prompt);
+                            break;
+                        default:
+                            throw new Error('API yang dipilih tidak valid');
+                    }
+                    
+                    // Buat objek gambar baru
+                    const newImage = {
+                        id: Date.now(),
+                        prompt: prompt,
+                        url: imageUrl,
+                        timestamp: new Date().toISOString(),
+                        api: selectedApi
+                    };
+                    
+                    // Tambahkan gambar baru ke array
+                    generatedImages.unshift(newImage);
+                    
+                    // Simpan ke localStorage
+                    localStorage.setItem('generatedImages', JSON.stringify(generatedImages));
+                    
+                    // Tampilkan ulang semua gambar
+                    displayImages();
+                    
+                    // Tampilkan pesan sukses
+                    showMessage('Gambar berhasil dibuat!', 'success');
+                    
+                    // Kosongkan input
+                    promptInput.value = '';
+                    
+                } catch (error) {
+                    console.error('Error generating image:', error);
+                    showMessage(`Terjadi kesalahan: ${error.message}`, 'error');
+                } finally {
+                    // Sembunyikan loading
+                    loadingSection.classList.add('hidden');
+                    generateBtn.disabled = false;
+                }
+            }
+            
+            // API Placeholder - menggunakan placeholder.com dengan teks custom
+            async function generateWithPlaceholderAPI(prompt) {
+                // Buat teks untuk placeholder berdasarkan prompt
+                const text = encodeURIComponent(prompt.substring(0, 30));
+                const width = 600;
+                const height = 400;
+                
+                return `https://via.placeholder.com/${width}x${height}/6c63ff/ffffff?text=${text}`;
+            }
+            
+            // API Picsum - menggunakan picsum.photos dengan gambar acak
+            async function generateWithPicsumAPI(prompt) {
+                // Gunakan ID acak untuk mendapatkan gambar yang berbeda
+                const randomId = Math.floor(Math.random() * 1000);
+                return `https://picsum.photos/600/400?random=${randomId}`;
+            }
+            
+            // API DiceBear - untuk avatar/style ilustrasi
+            async function generateWithDiceBearAPI(prompt) {
+                // Tentukan style berdasarkan prompt (sederhana)
+                let style = 'avataaars';
+                if (prompt.toLowerCase().includes('animal') || prompt.toLowerCase().includes('cat') || prompt.toLowerCase().includes('dog')) {
+                    style = 'bottts';
+                } else if (prompt.toLowerCase().includes('pixel') || prompt.toLowerCase().includes('retro')) {
+                    style = 'pixel-art';
+                }
+                
+                // Encode prompt untuk seed
+                const seed = encodeURIComponent(prompt.substring(0, 20));
+                
+                return `https://api.dicebear.com/7.x/${style}/svg?seed=${seed}`;
+            }
+            
+            function displayImages() {
+                // Kosongkan section gambar
+                imageSection.innerHTML = '';
+                
+                if (generatedImages.length === 0) {
+                    // Tampilkan empty state
+                    imageSection.appendChild(emptyState);
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+                
+                // Sembunyikan empty state
+                emptyState.classList.add('hidden');
+                
+                // Tampilkan semua gambar
+                generatedImages.forEach(image => {
+                    const imageCard = document.createElement('div');
+                    imageCard.className = 'image-card';
+                    
+                    // Tentukan badge berdasarkan API
+                    let apiBadge = '';
+                    switch(image.api) {
+                        case 'placeholder':
+                            apiBadge = '<span style="background: #6c63ff; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; margin-left: 8px;">Placeholder</span>';
+                            break;
+                        case 'picsum':
+                            apiBadge = '<span style="background: #10b981; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; margin-left: 8px;">Picsum</span>';
+                            break;
+                        case 'dicebear':
+                            apiBadge = '<span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; margin-left: 8px;">DiceBear</span>';
+                            break;
+                    }
+                    
+                    imageCard.innerHTML = `
+                        <div class="image-container">
+                            <img src="${image.url}" alt="${image.prompt}" onerror="this.src='https://via.placeholder.com/600x400/cccccc/969696?text=Gambar+Tidak+Dapat+Dimuat'">
+                        </div>
+                        <div class="image-info">
+                            <h3>${truncateText(image.prompt, 50)} ${apiBadge}</h3>
+                            <p>Dibuat: ${formatDate(new Date(image.timestamp))}</p>
+                            <div class="image-actions">
+                                <button class="secondary-btn" onclick="downloadImage('${image.url}', '${image.prompt.substring(0, 20)}.jpg')">
+                                    <i class="fas fa-download"></i> Unduh
+                                </button>
+                                <button class="secondary-btn" onclick="shareImage('${image.url}', '${image.prompt}')">
+                                    <i class="fas fa-share"></i> Bagikan
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    imageSection.appendChild(imageCard);
+                });
+            }
+            
+            function clearHistory() {
+                if (generatedImages.length === 0) {
+                    showMessage('Tidak ada gambar yang dapat dihapus.', 'info');
+                    return;
+                }
+                
+                if (confirm('Apakah Anda yakin ingin menghapus semua gambar?')) {
+                    generatedImages = [];
+                    localStorage.removeItem('generatedImages');
+                    displayImages();
+                    showMessage('Semua gambar telah dihapus.', 'success');
+                }
+            }
+            
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}-message`;
+                messageDiv.classList.remove('hidden');
+                
+                // Auto-hide pesan sukses setelah 5 detik
+                if (type === 'success' || type === 'info') {
+                    setTimeout(() => {
+                        hideMessage();
+                    }, 5000);
+                }
+            }
+            
+            function hideMessage() {
+                messageDiv.classList.add('hidden');
+            }
+            
+            function truncateText(text, maxLength) {
+                if (text.length <= maxLength) return text;
+                return text.substring(0, maxLength) + '...';
+            }
+            
+            function formatDate(date) {
+                return date.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            // Fungsi global untuk aksi gambar
+            window.downloadImage = function(url, filename) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+            
+            window.shareImage = function(url, prompt) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Gambar AI yang Saya Buat',
+                        text: `Lihat gambar AI yang saya buat: ${prompt}`,
+                        url: url
+                    })
+                    .catch(error => console.log('Error sharing:', error));
+                } else {
+                    // Fallback untuk browser yang tidak mendukung Web Share API
+                    navigator.clipboard.writeText(url)
+                        .then(() => showMessage('URL gambar telah disalin ke clipboard!', 'success'))
+                        .catch(() => showMessage('Tidak dapat menyalin URL', 'error'));
+                }
+            };
+        });
+    </script>
+</body>
 </html>
